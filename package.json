@@ -1,10 +1,10 @@
 {
   "name": "lcl-image-cropper",
-  "version": "0.1.3",
+  "version": "0.1.6",
   "description": "js image cropper",
-  "main": "dist/lcl-image-cropper.js",
-  "module": "dist/lcl-image-cropper.mjs",
-  "browser": "dist/lcl-image-cropper.iife.js",
+  "main": "src/index.ts",
+  "module": "dist/lcl-image-cropper.min.mjs",
+  "browser": "dist/lcl-image-cropper.min.js",
   "scripts": {
     "lint": "eslint src/**/*.ts --fix",
     "css": "rollup -c --environment NODE_ENV:css && npm run lint",
@@ -17,7 +17,7 @@
     "image",
     "cropper"
   ],
-  "author": "Lei chenlong",
+  "author": "Lei Chenlong",
   "license": "MIT",
   "repository": {
     "type": "git",
