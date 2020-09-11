@@ -18,10 +18,12 @@ import postcssPresetEnv from 'postcss-preset-env'
 import postcssModules from 'postcss-modules'
 import cssnano from 'cssnano'
 
+import pkg from './package.json'
+
 const commonPlugins = [
   copy({
     targets: [
-      { src: './public/*', dest: './dist' }
+      { src: './public/*', dest: './dev' }
     ]
   }),
   json(),
@@ -51,7 +53,10 @@ const commonPlugins = [
 
 const productionPlugins = [
   clear({
-    targets: [path.resolve(__dirname, './dist')]
+    targets: [
+      path.resolve(__dirname, './dev'),
+      path.resolve(__dirname, './dist')
+    ]
   }),
   terser()
 ]
@@ -60,20 +65,35 @@ const developmentPlugins = [
   serve({
     open: true,
     port: 8888,
-    contentBase: 'dist'
+    contentBase: 'dev'
   }),
-  livereload('dist')
+  livereload('dev')
 ]
 
-const productionOutput = {
-  file: './dist/js/iife/LCLImageCropper.min.js',
-  format: 'iife',
-  name: 'LCLImageCropper',
-  sourcemap: true
-}
+const productionOutput = [
+  {
+    file: `./dist/${pkg.name}.js`,
+    format: 'umd',
+    name: 'LCLImageCropper',
+    sourcemap: true
+  },
+  {
+    file: `./dist/${pkg.name}.common.js`,
+    format: 'cjs',
+    name: 'LCLImageCropper',
+    sourcemap: true,
+    exports: 'default'
+  },
+  {
+    file: `./dist/${pkg.name}.esm.js`,
+    format: 'esm',
+    name: 'LCLImageCropper',
+    sourcemap: true
+  }
+]
 
 const developmentOutput = {
-  file: './dist/js/iife/LCLImageCropper.js',
+  file: './dev/js/iife/LCLImageCropper.js',
   format: 'iife',
   name: 'LCLImageCropper',
   sourcemap: true
