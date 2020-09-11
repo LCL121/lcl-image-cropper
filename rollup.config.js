@@ -54,8 +54,7 @@ const commonPlugins = [
 const productionPlugins = [
   clear({
     targets: [
-      path.resolve(__dirname, './dev'),
-      path.resolve(__dirname, './dist')
+      path.resolve(__dirname, './dev')
     ]
   }),
   terser()
