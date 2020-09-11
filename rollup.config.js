@@ -84,8 +84,14 @@ const productionOutput = [
     exports: 'default'
   },
   {
-    file: `./dist/${pkg.name}.esm.js`,
+    file: `./dist/${pkg.name}.mjs`,
     format: 'esm',
+    name: 'LCLImageCropper',
+    sourcemap: true
+  },
+  {
+    file: `./dist/${pkg.name}.iife.js`,
+    format: 'iife',
     name: 'LCLImageCropper',
     sourcemap: true
   }
