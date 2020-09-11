@@ -1,0 +1,1 @@
+npm install lcl-image-cropper
