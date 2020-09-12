@@ -1,0 +1,173 @@
+.crop-main {
+  position: relative;
+  height: 400px;
+  width: 500px;
+  overflow: hidden;
+
+  .crop-bottom-box {
+    position: absolute;
+    background: #000;
+    height: 100%;
+    width: 100%;
+
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .crop-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, .5);
+  }
+
+  .crop-box {
+    position: absolute;
+    top: 50px;
+    user-select: none;
+  
+    .crop-box-img {
+      overflow: hidden;
+      height: 100%;
+    }
+  
+    .crop-box-move {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: move;
+    }
+  
+    .crop-box-info {
+      position: absolute;
+      left: 0px;
+      top: -21px;
+      cursor: default;
+      min-width: 65px;
+      text-align: center;
+      color: white;
+      line-height: 20px;
+      background-color: rgba(0, 0, 0, 0.8);
+      font-size: 12px;
+    }
+  
+    .crop-box-point-line-wrapper {
+      .crop-line {
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        opacity: 0.1;
+      }
+    
+      .crop-line-top {
+        top: -3px;
+        left: 0;
+        height: 5px;
+        cursor: n-resize;
+      }
+    
+      .crop-line-right {
+        top: 0;
+        right: -3px;
+        width: 5px;
+        cursor: e-resize;
+      }
+    
+      .crop-line-bottom {
+        bottom: -3px;
+        left: 0;
+        height: 5px;
+        cursor: s-resize;
+      }
+    
+      .crop-line-left {
+        top: 0;
+        left: -3px;
+        width: 5px;
+        cursor: w-resize;
+      }
+    
+      .crop-point {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        opacity: 0.75;
+        background-color: #39f;
+        border-radius: 100%;
+      }
+    
+      .crop-point1 {
+        top: -4px;
+        left: -4px;
+        cursor: nw-resize;
+        z-index: 10;
+      }
+    
+      .crop-point2 {
+        top: -5px;
+        left: 50%;
+        margin-left: -3px;
+        cursor: n-resize;
+        z-index: 10;
+      }
+    
+      .crop-point3 {
+        top: -4px;
+        right: -4px;
+        cursor: ne-resize;
+        z-index: 10;
+      }
+      
+      .crop-point4 {
+        top: 50%;
+        left: -4px;
+        margin-top: -3px;
+        cursor: w-resize;
+        z-index: 10;
+      }
+    
+      .crop-point5 {
+        top: 50%;
+        right: -4px;
+        margin-top: -3px;
+        cursor: e-resize;
+        z-index: 10;
+      }
+    
+      .crop-point6 {
+        bottom: -5px;
+        left: -4px;
+        cursor: sw-resize;
+        z-index: 10;
+      }
+    
+      .crop-point7 {
+        bottom: -5px;
+        left: 50%;
+        margin-left: -3px;
+        cursor: s-resize;
+        z-index: 10;
+      }
+    
+      .crop-point8 {
+        bottom: -5px;
+        right: -4px;
+        cursor: se-resize;
+        z-index: 10;
+      }
+    }
+  }
+}
+
+
+
+
