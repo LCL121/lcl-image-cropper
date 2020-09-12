@@ -1,8 +1,8 @@
-/dev
-/node_modules
-/note
-/public
-/src
+dev/
+node_modules/
+note/
+public/
+src/
 .babelrc
 .eslintignore
 .eslintrc.json

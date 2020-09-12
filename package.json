@@ -1,8 +1,8 @@
 {
   "name": "lcl-image-cropper",
-  "version": "0.1.10",
+  "version": "0.1.13",
   "description": "js image cropper",
-  "main": "src/index.ts",
+  "main": "lib/index.ts",
   "module": "dist/lcl-image-cropper.min.mjs",
   "browser": "dist/lcl-image-cropper.min.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "test": "rollup -c -w --environment NODE_ENV:test && npm run lint",
     "build": "rollup -c --environment NODE_ENV:production && npm run lint",
     "dev": "rollup -c -w --environment NODE_ENV:development && npm run lint",
-    "build:all": "gulp build" 
+    "build:all": "gulp build && npm run build" 
   },
   "keywords": [
     "lcl",

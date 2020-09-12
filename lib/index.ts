@@ -170,12 +170,7 @@ class LCLImageCropper {
    * @param {Function} callBack 回调函数，支持用户对解析的Blob进行操作
    * @param {Boolean} isDownLoad 是否自动下载
    */
-  getResult(callBack: (result: Blob) => void, isDownLoad?: Boolean): LCLImageCropper {
-    if (!callBack) {
-      console.error(new Error('Missing callBack parameter'))
-      return this
-    }
-
+  getResult(callBack?: (result: Blob) => void, isDownLoad?: Boolean): LCLImageCropper {
     const cropBox = this.cropMain.cropBox.cropBoxMain
     const proportion = this.cropMain.getProportion()
     const imgShow = this.cropMain.cropBox.cropBoxImgObj.img
@@ -203,9 +198,12 @@ class LCLImageCropper {
         canvas.toBlob((blob) => {
           // 图片ajax上传
           if (blob) {
-            callBack(blob)
+            if (callBack) {
+              callBack(blob)
+            }
+            this.blobUrl = window.URL.createObjectURL(blob)
             if (isDownLoad) {
-              this.blobUrl = window.URL.createObjectURL(blob)
+              this.download()
             }
           }
         }, this.fileType || 'image/jpeg')
