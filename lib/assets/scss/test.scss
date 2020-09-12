@@ -1,0 +1,42 @@
+.get-picture-button {
+  height: 7rem;
+  width: 5rem;
+  border: 1px #ccc solid;
+  line-height: 7rem;
+  font-size: 1.5rem;
+  color: #959393;
+  text-align: center;
+  cursor: pointer;
+}
+
+.input-file {
+  display: none;
+}
+
+.main-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, .5);
+}
+
+.main-wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  background: #fff;
+  width: 500px;
+  height: 600px;
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+
+  .main-title {
+    font-size: 16px;
+    color: #404040;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+}

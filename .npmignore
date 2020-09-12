@@ -1,0 +1,14 @@
+/dev
+/node_modules
+/note
+/public
+/src
+.babelrc
+.eslintignore
+.eslintrc.json
+.gitignore
+.npmignore
+gulpfile.js
+README.md
+rollup.config.js
+tsconfig.json
