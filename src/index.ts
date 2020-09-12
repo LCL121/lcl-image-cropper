@@ -246,6 +246,20 @@ class LCLImageCropper {
   }
 }
 
+/**
+ * 创建 LCLImageCropper
+ * @function
+ * @param {HTMLElement} rootElemet 插件插入的节点
+ * @param {string|File} imgSrc 图片来源 File 或 string 类型
+ * @param {number} resultWidth 输出图片的宽度
+ * @param {number} resultHeight 输出图片的高度
+ * @param {number|undefined} defaultWidth 初始显示的默认宽度
+ * @param {number|undefined} defaultHeight 初始显示的默认高度
+ * @param {string|undefined} fileType 输出图片的类型
+ * @param {string|undefined} fileName 输出图片的名字
+ * @param {Boolean} isZoomFree 是否自由缩放
+ * @param {number} minWH 最小宽高
+ */
 export default function (
   rootElemet: HTMLElement,
   imgSrc: string | File,
