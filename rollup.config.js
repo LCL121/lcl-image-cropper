@@ -54,7 +54,7 @@ const commonPlugins = [
 const productionPlugins = [
   clear({
     targets: [
-      path.resolve(__dirname, './dev')
+      path.resolve(__dirname, './dist')
     ]
   }),
   terser({
@@ -63,6 +63,11 @@ const productionPlugins = [
 ]
 
 const developmentPlugins = [
+  clear({
+    targets: [
+      path.resolve(__dirname, './dev')
+    ]
+  }),
   serve({
     open: true,
     port: 8888,

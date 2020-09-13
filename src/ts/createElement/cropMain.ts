@@ -41,6 +41,10 @@ class CropMain {
       cropBox.style.width = `${defaultWidth || Math.floor(width / 2)}px`
       cropBox.style.height = `${defaultHeight || 150}px`
       cropBox.style.transform = 'translate3d(0px, 0px, 0px)'
+      if (screen.width < 500) {
+        this.cropMainMain.style.width = `${screen.width}px`
+        cropBox.style.left = `${Math.floor((screen.width - width) / 2)}px`
+      }
       imgShow.style.width = `${width}px`
       imgShow.style.height = '300px'
       imgShow.style.transform = 'translate3d(0px, 0px, 0px)'

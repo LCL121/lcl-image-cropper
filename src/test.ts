@@ -22,7 +22,7 @@ class Test {
       const target = e.target as HTMLInputElement
       if (target && target.files) {
         this.file = target.files[0]
-        if (this.file.size < 200 * 1024) {
+        if (this.file.size < 1024 * 1024) {
           // 选择的文件是图片
           if (this.file.type.indexOf('image') === 0) {
             this.reader.readAsDataURL(this.file)
@@ -69,6 +69,14 @@ class Test {
           }
           document.body.append(button4)
 
+          // 测试下载功能
+          // const button5 = document.createElement('button')
+          // button5.innerHTML = 'download'
+          // button5.onclick = () => {
+          //   a.download()
+          // }
+          // document.body.append(button5)
+
           // 测试销毁功能
           const button3 = document.createElement('button')
           button3.innerHTML = 'destroy'
@@ -78,6 +86,7 @@ class Test {
             button2.remove()
             button3.remove()
             button4.remove()
+            // button5.remove()
           }
           document.body.append(button3)
         }

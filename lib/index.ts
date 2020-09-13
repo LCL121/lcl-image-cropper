@@ -26,24 +26,26 @@ class LCLImageCropper {
    * @param {string|File} imgSrc 图片来源
    * @param {number} resultWidth 输出图片的宽度
    * @param {number} resultHeight 输出图片的高度
+   * @param {Boolean} pcIsZoomFree pc端是否自由缩放
+   * @param {Boolean} mobileIsZoomFree mobile端是否自由缩放
+   * @param {number} minWH 最小宽高 默认值为 20px
+   * @param {string|undefined} fileType 如果判断不出图片的类型时使用
+   * @param {string|undefined} fileName 如果判断不出图片的名字时使用
    * @param {number|undefined} defaultWidth 初始显示的默认宽度
    * @param {number|undefined} defaultHeight 初始显示的默认高度
-   * @param {string|undefined} fileType 输出图片的类型
-   * @param {string|undefined} fileName 输出图片的名字
-   * @param {Boolean} isZoomFree 是否自由缩放
-   * @param {number} minWH 最小宽高
    */
   constructor(
     rootElemet: HTMLElement,
     imgSrc: string | File,
     resultWidth: number,
     resultHeight: number,
-    defaultWidth?: number,
-    defaultHeight?: number,
+    pcIsZoomFree: Boolean,
+    mobileIsZoomFree: Boolean,
+    minWH: number,
     fileType?: string,
     fileName?: string,
-    isZoomFree: Boolean = true,
-    minWH: number = 20
+    defaultWidth?: number,
+    defaultHeight?: number
   ) {
     this.resultWidth = resultWidth
     this.resultHeight = resultHeight
@@ -51,7 +53,7 @@ class LCLImageCropper {
     this.fileName = fileName
     this.cropMain = new CropMain(
       (width: number, height: number) => {
-        this.bindEvent(minWH, isZoomFree, width / height)
+        this.bindEvent(minWH, pcIsZoomFree, mobileIsZoomFree, width / height)
       },
       defaultWidth,
       defaultHeight
@@ -86,20 +88,50 @@ class LCLImageCropper {
    * @method bindEvent
    * @private
    * @param {number} minWH 最小的宽高
-   * @param {Boolean} isZoomFree 是否自由缩放
+   * @param {Boolean} pcIsZoomFree pc端是否自由缩放
+   * @param {Boolean} mobileIsZoomFree mobile端是否自由缩放
    * @param {number} defaultAspectRatio 原始宽高比
    */
-  private bindEvent(minWH: number, isZoomFree: Boolean, defaultAspectRatio: number) {
+  private bindEvent(
+    minWH: number,
+    pcIsZoomFree: Boolean,
+    mobileIsZoomFree: Boolean,
+    defaultAspectRatio: number
+  ) {
     const cropBoxElement = this.cropMain.cropBox.cropBoxMain
     const imgElement = this.cropMain.cropBox.cropBoxImgObj.img
     const infoHeightElement = this.cropMain.cropBox.cropBoxInfoObj.infoHeight
     const infoWidthElement = this.cropMain.cropBox.cropBoxInfoObj.infoWidth
     const cropBoxPointLineWrapper = this.cropMain.cropBox.cropBoxPointLineWrapperObj
 
-    if (isZoomFree) {
+    // PC
+    // 移动
+    PCSelector.move(this.cropMain.cropBox.cropBoxMove, cropBoxElement, imgElement)
+    // 向左上移动
+    PCSelector.pointLeftAndTop(cropBoxPointLineWrapper.cropPoint1, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+    // 向右上移动
+    PCSelector.pointRightAndTop(cropBoxPointLineWrapper.cropPoint3, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+    // 向左下移动
+    PCSelector.pointLeftAndBottom(cropBoxPointLineWrapper.cropPoint6, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+    // 向右下移动
+    PCSelector.pointRightAndBottom(cropBoxPointLineWrapper.cropPoint8, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+
+    // Mobile
+    // 移动
+    MobileSelector.move(this.cropMain.cropBox.cropBoxMove, cropBoxElement, imgElement)
+    // 选择
+    MobileSelector.selectArea(this.cropMain.cropMask, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio)
+    // 向左上移动
+    MobileSelector.pointLeftAndTop(cropBoxPointLineWrapper.cropPoint1, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+    // 向右上移动
+    MobileSelector.pointRightAndTop(cropBoxPointLineWrapper.cropPoint3, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+    // 向左下移动
+    MobileSelector.pointLeftAndBottom(cropBoxPointLineWrapper.cropPoint6, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+    // 向右下移动
+    MobileSelector.pointRightAndBottom(cropBoxPointLineWrapper.cropPoint8, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+
+    if (pcIsZoomFree) {
       // PC
-      // 移动
-      PCSelector.move(this.cropMain.cropBox.cropBoxMove, cropBoxElement, imgElement)
       // 向上移动
       PCSelector.lineAndPointTop(cropBoxPointLineWrapper.cropLineTop, cropBoxElement, imgElement, infoHeightElement, minWH)
       PCSelector.lineAndPointTop(cropBoxPointLineWrapper.cropPoint2, cropBoxElement, imgElement, infoHeightElement, minWH)
@@ -112,39 +144,51 @@ class LCLImageCropper {
       // 向右移动
       PCSelector.lineAndPointRight(cropBoxPointLineWrapper.cropLineRight, cropBoxElement, imgElement, infoWidthElement, minWH)
       PCSelector.lineAndPointRight(cropBoxPointLineWrapper.cropPoint5, cropBoxElement, imgElement, infoWidthElement, minWH)
-      // 向左上移动
-      PCSelector.pointLeftAndTop(cropBoxPointLineWrapper.cropPoint1, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
-      // 向右上移动
-      PCSelector.pointRightAndTop(cropBoxPointLineWrapper.cropPoint3, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
-      // 向左下移动
-      PCSelector.pointLeftAndBottom(cropBoxPointLineWrapper.cropPoint6, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
-      // 向右下移动
-      PCSelector.pointRightAndBottom(cropBoxPointLineWrapper.cropPoint8, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
     } else {
-      // 移动
-      PCSelector.move(this.cropMain.cropBox.cropBoxMove, cropBoxElement, imgElement)
+      // PC
       // 向左上移动
-      PCSelector.pointLeftAndTop(cropBoxPointLineWrapper.cropPoint1, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
       PCSelector.pointLeftAndTop(cropBoxPointLineWrapper.cropLineLeft, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
       PCSelector.pointLeftAndTop(cropBoxPointLineWrapper.cropPoint4, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
       // 向右上移动
-      PCSelector.pointRightAndTop(cropBoxPointLineWrapper.cropPoint3, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
       PCSelector.pointRightAndTop(cropBoxPointLineWrapper.cropLineTop, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
       PCSelector.pointRightAndTop(cropBoxPointLineWrapper.cropPoint2, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
       // 向左下移动
-      PCSelector.pointLeftAndBottom(cropBoxPointLineWrapper.cropPoint6, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
       PCSelector.pointLeftAndBottom(cropBoxPointLineWrapper.cropLineBottom, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
       PCSelector.pointLeftAndBottom(cropBoxPointLineWrapper.cropPoint7, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
       // 向右下移动
-      PCSelector.pointRightAndBottom(cropBoxPointLineWrapper.cropPoint8, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
       PCSelector.pointRightAndBottom(cropBoxPointLineWrapper.cropLineRight, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
       PCSelector.pointRightAndBottom(cropBoxPointLineWrapper.cropPoint5, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
     }
-    // Mobile
-    // 移动
-    MobileSelector.move(this.cropMain.cropBox.cropBoxMove, cropBoxElement, imgElement)
-    // 选择
-    MobileSelector.selectArea(this.cropMain.cropMask, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio)
+
+    if (mobileIsZoomFree) {
+      // Mobile
+      // 向上移动
+      MobileSelector.lineAndPointTop(cropBoxPointLineWrapper.cropLineTop, cropBoxElement, imgElement, infoHeightElement, minWH)
+      MobileSelector.lineAndPointTop(cropBoxPointLineWrapper.cropPoint2, cropBoxElement, imgElement, infoHeightElement, minWH)
+      // 向下移动
+      MobileSelector.lineAndPointBottom(cropBoxPointLineWrapper.cropLineBottom, cropBoxElement, imgElement, infoHeightElement, minWH)
+      MobileSelector.lineAndPointBottom(cropBoxPointLineWrapper.cropPoint7, cropBoxElement, imgElement, infoHeightElement, minWH)
+      // 向左移动
+      MobileSelector.lineAndPointLeft(cropBoxPointLineWrapper.cropLineLeft, cropBoxElement, imgElement, infoWidthElement, minWH)
+      MobileSelector.lineAndPointLeft(cropBoxPointLineWrapper.cropPoint4, cropBoxElement, imgElement, infoWidthElement, minWH)
+      // 向右移动
+      MobileSelector.lineAndPointRight(cropBoxPointLineWrapper.cropLineRight, cropBoxElement, imgElement, infoWidthElement, minWH)
+      MobileSelector.lineAndPointRight(cropBoxPointLineWrapper.cropPoint5, cropBoxElement, imgElement, infoWidthElement, minWH)
+    } else {
+      // Mobile
+      // 向左上移动
+      MobileSelector.pointLeftAndTop(cropBoxPointLineWrapper.cropLineLeft, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+      MobileSelector.pointLeftAndTop(cropBoxPointLineWrapper.cropPoint4, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+      // 向右上移动
+      MobileSelector.pointRightAndTop(cropBoxPointLineWrapper.cropLineTop, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+      MobileSelector.pointRightAndTop(cropBoxPointLineWrapper.cropPoint2, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+      // 向左下移动
+      MobileSelector.pointLeftAndBottom(cropBoxPointLineWrapper.cropLineBottom, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+      MobileSelector.pointLeftAndBottom(cropBoxPointLineWrapper.cropPoint7, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+      // 向右下移动
+      MobileSelector.pointRightAndBottom(cropBoxPointLineWrapper.cropLineRight, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+      MobileSelector.pointRightAndBottom(cropBoxPointLineWrapper.cropPoint5, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
+    }
   }
 
   /**
@@ -250,38 +294,41 @@ class LCLImageCropper {
  * 创建 LCLImageCropper
  * @function
  * @param {HTMLElement} rootElemet 插件插入的节点
- * @param {string|File} imgSrc 图片来源 File 或 string 类型
+ * @param {string|File} imgSrc 图片来源
  * @param {number} resultWidth 输出图片的宽度
  * @param {number} resultHeight 输出图片的高度
+ * @param {Boolean} pcIsZoomFree pc端是否自由缩放 默认值为 true
+ * @param {Boolean} mobileIsZoomFree mobile端是否自由缩放 默认值为 true
+ * @param {number} minWH 最小宽高 默认值为 20px
+ * @param {string|undefined} fileType 如果判断不出图片的类型时使用
+ * @param {string|undefined} fileName 如果判断不出图片的名字时使用
  * @param {number|undefined} defaultWidth 初始显示的默认宽度
  * @param {number|undefined} defaultHeight 初始显示的默认高度
- * @param {string|undefined} fileType 输出图片的类型
- * @param {string|undefined} fileName 输出图片的名字
- * @param {Boolean} isZoomFree 是否自由缩放
- * @param {number} minWH 最小宽高
  */
 export default function (
   rootElemet: HTMLElement,
   imgSrc: string | File,
   resultWidth: number,
   resultHeight: number,
-  defaultWidth?: number,
-  defaultHeight?: number,
+  pcIsZoomFree: Boolean = true,
+  mobileIsZoomFree: Boolean = true,
+  minWH: number = 20,
   fileType?: string,
   fileName?: string,
-  isZoomFree: Boolean = true,
-  minWH: number = 20
+  defaultWidth?: number,
+  defaultHeight?: number
 ) {
   return new LCLImageCropper(
     rootElemet,
     imgSrc,
     resultWidth,
     resultHeight,
-    defaultWidth,
-    defaultHeight,
+    pcIsZoomFree,
+    mobileIsZoomFree,
+    minWH,
     fileType,
     fileName,
-    isZoomFree,
-    minWH
+    defaultWidth,
+    defaultHeight
   )
 }
