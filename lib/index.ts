@@ -31,8 +31,8 @@ class LCLImageCropper {
    * @param {number} minWH 最小宽高 默认值为 20px
    * @param {string|undefined} fileType 如果判断不出图片的类型时使用
    * @param {string|undefined} fileName 如果判断不出图片的名字时使用
-   * @param {number|undefined} defaultWidth 初始显示的默认宽度
-   * @param {number|undefined} defaultHeight 初始显示的默认高度
+   * @param {number|undefined} startWidth 初始显示的默认宽度
+   * @param {number|undefined} startHeight 初始显示的默认高度
    */
   constructor(
     rootElemet: HTMLElement,
@@ -44,8 +44,8 @@ class LCLImageCropper {
     minWH: number,
     fileType?: string,
     fileName?: string,
-    defaultWidth?: number,
-    defaultHeight?: number
+    startWidth?: number,
+    startHeight?: number
   ) {
     this.resultWidth = resultWidth
     this.resultHeight = resultHeight
@@ -53,10 +53,12 @@ class LCLImageCropper {
     this.fileName = fileName
     this.cropMain = new CropMain(
       (width: number, height: number) => {
+        if (startHeight) height = startHeight
+        if (startWidth) width = startWidth
         this.bindEvent(minWH, pcIsZoomFree, mobileIsZoomFree, width / height)
       },
-      defaultWidth,
-      defaultHeight
+      startWidth,
+      startHeight
     )
 
     if (imgSrc instanceof File) {
@@ -107,8 +109,6 @@ class LCLImageCropper {
     // PC
     // 移动
     PCSelector.move(this.cropMain.cropBox.cropBoxMove, cropBoxElement, imgElement)
-    // 选择
-    PCSelector.selectArea(this.cropMain.cropMask, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio)
     // 向左上移动
     PCSelector.pointLeftAndTop(cropBoxPointLineWrapper.cropPoint1, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
     // 向右上移动
@@ -121,8 +121,6 @@ class LCLImageCropper {
     // Mobile
     // 移动
     MobileSelector.move(this.cropMain.cropBox.cropBoxMove, cropBoxElement, imgElement)
-    // 选择
-    MobileSelector.selectArea(this.cropMain.cropMask, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio)
     // 向左上移动
     MobileSelector.pointLeftAndTop(cropBoxPointLineWrapper.cropPoint1, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
     // 向右上移动
@@ -134,6 +132,8 @@ class LCLImageCropper {
 
     if (pcIsZoomFree) {
       // PC
+      // 选择
+      PCSelector.selectArea(this.cropMain.cropMask, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio)
       // 向上移动
       PCSelector.lineAndPointTop(cropBoxPointLineWrapper.cropLineTop, cropBoxElement, imgElement, infoHeightElement, minWH)
       PCSelector.lineAndPointTop(cropBoxPointLineWrapper.cropPoint2, cropBoxElement, imgElement, infoHeightElement, minWH)
@@ -164,6 +164,8 @@ class LCLImageCropper {
 
     if (mobileIsZoomFree) {
       // Mobile
+      // 选择
+      MobileSelector.selectArea(this.cropMain.cropMask, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio)
       // 向上移动
       MobileSelector.lineAndPointTop(cropBoxPointLineWrapper.cropLineTop, cropBoxElement, imgElement, infoHeightElement, minWH)
       MobileSelector.lineAndPointTop(cropBoxPointLineWrapper.cropPoint2, cropBoxElement, imgElement, infoHeightElement, minWH)
@@ -304,8 +306,8 @@ class LCLImageCropper {
  * @param {number} minWH 最小宽高 默认值为 20px
  * @param {string|undefined} fileType 如果判断不出图片的类型时使用
  * @param {string|undefined} fileName 如果判断不出图片的名字时使用
- * @param {number|undefined} defaultWidth 初始显示的默认宽度
- * @param {number|undefined} defaultHeight 初始显示的默认高度
+ * @param {number|undefined} startWidth 初始显示的默认宽度，如果没有默认使用图片的一半宽度显示
+ * @param {number|undefined} startHeight 初始显示的默认高度， 如果没有默认使用图片的一半高度显示
  */
 export default function (
   rootElemet: HTMLElement,
@@ -317,8 +319,8 @@ export default function (
   minWH: number = 20,
   fileType?: string,
   fileName?: string,
-  defaultWidth?: number,
-  defaultHeight?: number
+  startWidth?: number,
+  startHeight?: number
 ) {
   return new LCLImageCropper(
     rootElemet,
@@ -330,7 +332,7 @@ export default function (
     minWH,
     fileType,
     fileName,
-    defaultWidth,
-    defaultHeight
+    startWidth,
+    startHeight
   )
 }
