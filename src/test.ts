@@ -22,7 +22,7 @@ class Test {
       const target = e.target as HTMLInputElement
       if (target && target.files) {
         this.file = target.files[0]
-        if (this.file.size < 1024 * 1024) {
+        if (this.file.size < 10 * 1024 * 1024) {
           // 选择的文件是图片
           if (this.file.type.indexOf('image') === 0) {
             this.reader.readAsDataURL(this.file)

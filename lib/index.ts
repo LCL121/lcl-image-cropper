@@ -26,13 +26,13 @@ class LCLImageCropper {
    * @param {string|File} imgSrc 图片来源
    * @param {number} resultWidth 输出图片的宽度
    * @param {number} resultHeight 输出图片的高度
-   * @param {Boolean} pcIsZoomFree pc端是否自由缩放
-   * @param {Boolean} mobileIsZoomFree mobile端是否自由缩放
+   * @param {Boolean} pcIsZoomFree pc端是否自由缩放 默认值为 true
+   * @param {Boolean} mobileIsZoomFree mobile端是否自由缩放 默认值为 true
+   * @param {number|undefined} startWidth 初始显示的宽度，默认使用图片的一半宽度显示
+   * @param {number|undefined} startHeight 初始显示的高度， 默认使用图片的一半高度显示
+   * @param {string|undefined} fileType 输出图片的类型，默认使用原图片类型或image/jpeg，用于压缩
+   * @param {string|undefined} fileName 输出的图片的名字，用于自动下载
    * @param {number} minWH 最小宽高 默认值为 20px
-   * @param {string|undefined} fileType 如果判断不出图片的类型时使用
-   * @param {string|undefined} fileName 如果判断不出图片的名字时使用
-   * @param {number|undefined} startWidth 初始显示的默认宽度
-   * @param {number|undefined} startHeight 初始显示的默认高度
    */
   constructor(
     rootElemet: HTMLElement,
@@ -41,11 +41,11 @@ class LCLImageCropper {
     resultHeight: number,
     pcIsZoomFree: Boolean,
     mobileIsZoomFree: Boolean,
-    minWH: number,
+    startWidth?: number,
+    startHeight?: number,
     fileType?: string,
     fileName?: string,
-    startWidth?: number,
-    startHeight?: number
+    minWH: number = 20
   ) {
     this.resultWidth = resultWidth
     this.resultHeight = resultHeight
@@ -62,8 +62,8 @@ class LCLImageCropper {
     )
 
     if (imgSrc instanceof File) {
-      this.fileType = imgSrc.type
-      this.fileName = imgSrc.name
+      if (!fileType) this.fileType = imgSrc.type
+      if (!fileName) this.fileName = imgSrc.name
       const reader = new FileReader()
       reader.readAsDataURL(imgSrc)
       // 文件base64化，以便获知图片原始尺寸
@@ -303,11 +303,11 @@ class LCLImageCropper {
  * @param {number} resultHeight 输出图片的高度
  * @param {Boolean} pcIsZoomFree pc端是否自由缩放 默认值为 true
  * @param {Boolean} mobileIsZoomFree mobile端是否自由缩放 默认值为 true
+ * @param {number|undefined} startWidth 初始显示的宽度，默认使用图片的一半宽度显示
+ * @param {number|undefined} startHeight 初始显示的高度， 默认使用图片的一半高度显示
+ * @param {string|undefined} fileType 输出图片的类型，默认使用原图片类型或image/jpeg，用于压缩
+ * @param {string|undefined} fileName 输出的图片的名字，用于自动下载
  * @param {number} minWH 最小宽高 默认值为 20px
- * @param {string|undefined} fileType 如果判断不出图片的类型时使用
- * @param {string|undefined} fileName 如果判断不出图片的名字时使用
- * @param {number|undefined} startWidth 初始显示的默认宽度，如果没有默认使用图片的一半宽度显示
- * @param {number|undefined} startHeight 初始显示的默认高度， 如果没有默认使用图片的一半高度显示
  */
 export default function (
   rootElemet: HTMLElement,
@@ -316,11 +316,11 @@ export default function (
   resultHeight: number,
   pcIsZoomFree: Boolean = true,
   mobileIsZoomFree: Boolean = true,
-  minWH: number = 20,
+  startWidth?: number,
+  startHeight?: number,
   fileType?: string,
   fileName?: string,
-  startWidth?: number,
-  startHeight?: number
+  minWH: number = 20
 ) {
   return new LCLImageCropper(
     rootElemet,
@@ -329,10 +329,10 @@ export default function (
     resultHeight,
     pcIsZoomFree,
     mobileIsZoomFree,
-    minWH,
+    startWidth,
+    startHeight,
     fileType,
     fileName,
-    startWidth,
-    startHeight
+    minWH
   )
 }
