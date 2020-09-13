@@ -107,6 +107,8 @@ class LCLImageCropper {
     // PC
     // 移动
     PCSelector.move(this.cropMain.cropBox.cropBoxMove, cropBoxElement, imgElement)
+    // 选择
+    PCSelector.selectArea(this.cropMain.cropMask, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio)
     // 向左上移动
     PCSelector.pointLeftAndTop(cropBoxPointLineWrapper.cropPoint1, cropBoxElement, imgElement, infoWidthElement, infoHeightElement, defaultAspectRatio, minWH)
     // 向右上移动

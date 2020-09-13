@@ -4,6 +4,7 @@
   width: 500px;
   overflow: hidden;
   touch-action:none;
+  user-select: none;
 
   .crop-bottom-box {
     position: absolute;
@@ -31,7 +32,6 @@
   .crop-box {
     position: absolute;
     top: 50px;
-    user-select: none;
   
     .crop-box-img {
       overflow: hidden;

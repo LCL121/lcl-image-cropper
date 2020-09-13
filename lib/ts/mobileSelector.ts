@@ -113,9 +113,9 @@ class MobileSelector {
     let translateX: number
     let translateY: number
 
-    imgElement.onload = () => {
+    imgElement.addEventListener('load', () => {
       cropBoxElementPosition = getTopAndLeft(cropBoxElement)
-    }
+    })
 
     function selectMove(event: Event) {
       const e = event as TouchEvent

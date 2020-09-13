@@ -1,3 +1,10 @@
+import { getTopAndLeft } from './utils'
+
+interface Position {
+  top: number;
+  left: number;
+}
+
 class PCSelector {
   // 移动
   /**
@@ -78,6 +85,101 @@ class PCSelector {
       window.addEventListener('mousemove', moveMove)
       window.addEventListener('mouseup', moveUp)
     })
+  }
+
+  /**
+   * 选择控制
+   * @method selectArea
+   * @param {HTMLElement} rangeElement
+   * @param {HTMLElement} cropBoxElement
+   * @param {HTMLImageElement} imgElement
+   * @param {HTMLSpanElement} infoHeightElement
+   * @param {HTMLSpanElement} infoWidthElement
+   * @param {number} defaultAspectRatio 默认缩放比例
+   */
+  static selectArea(
+    rangeElement: HTMLElement,
+    cropBoxElement: HTMLElement,
+    imgElement: HTMLImageElement,
+    infoHeightElement: HTMLSpanElement,
+    infoWidthElement: HTMLSpanElement,
+    defaultAspectRatio: number
+  ) {
+    let isMove = false
+    // 可选范围开始位置
+    let cropBoxElementPosition: Position
+    // 点击开始位置
+    let startPosition: Position
+    let translateX: number
+    let translateY: number
+
+    imgElement.addEventListener('load', () => {
+      cropBoxElementPosition = getTopAndLeft(cropBoxElement)
+    })
+
+    function selectMove(event: Event) {
+      const e = event as MouseEvent
+      if (isMove) {
+        let currenttranslateX = translateX
+        let currenttranslateY = translateY
+        let currentW = e.pageX - startPosition.left
+        let currentH = e.pageY - startPosition.top
+        if (currentH < 0) {
+          currentH = -currentH
+          currenttranslateY = translateY - currentH
+        }
+        if (currentW < 0) {
+          currentW = -currentW
+          currenttranslateX = translateX - currentW
+        }
+        const maxW = parseFloat(imgElement.style.width) - currenttranslateX
+        const maxH = parseFloat(imgElement.style.height) - currenttranslateY
+        if (currentW > maxW || currentH > maxH) return
+        if (currenttranslateX < 0 || currenttranslateY < 0) return
+
+        imgElement.style.transform = `translate3d(${-currenttranslateX}px, ${-currenttranslateY}px, 0px)`
+        cropBoxElement.style.transform = `translate3d(${currenttranslateX}px, ${currenttranslateY}px, 0px)`
+        cropBoxElement.style.height = `${currentH}px`
+        cropBoxElement.style.width = `${currentW}px`
+        infoHeightElement.innerHTML = `${Math.round(currentH)}`
+        infoWidthElement.innerHTML = `${Math.round(currentW)}`
+      }
+    }
+
+    function selectUp() {
+      isMove = false
+
+      window.addEventListener('mousemove', selectMove)
+      window.addEventListener('mouseup', selectUp)
+    }
+
+    rangeElement.addEventListener('mousedown', function (event: Event) {
+      const e = event as MouseEvent
+      const currentPosition: Position = {
+        top: e.pageY,
+        left: e.pageX
+      }
+      if (PCSelector.isInRange(cropBoxElementPosition, currentPosition)) {
+        isMove = true
+        startPosition = currentPosition
+        translateX = currentPosition.left - cropBoxElementPosition.left
+        translateY = currentPosition.top - cropBoxElementPosition.top
+
+        window.addEventListener('mousemove', selectMove)
+        window.addEventListener('mouseup', selectUp)
+      }
+    })
+  }
+
+  /**
+   * 判断点击点是否在某个范围内
+   * @param {Position} range
+   * @param {Position} current
+   */
+  private static isInRange(range: Position, current: Position) {
+    if (current.left < range.left) return false
+    if (current.top < range.top) return false
+    return true
   }
 
   // 向上的线和点
