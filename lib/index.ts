@@ -3,7 +3,7 @@ import PCSelector from './ts/pcSelector'
 import MobileSelector from './ts/mobileSelector'
 import CommonSeletor from './ts/commonSeletor'
 
-import './assets/css/reset.css'
+// import './assets/css/reset.css'
 import './assets/scss/main.scss'
 
 /**
