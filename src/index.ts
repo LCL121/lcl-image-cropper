@@ -240,11 +240,10 @@ class LCLImageCropper {
       if (list) {
         const startX = Number(list[1]) / proportion
         const startY = Number(list[2]) / proportion
-        // 图片压缩
+        // 图片处理
         context.drawImage(imgShow, startX, startY, currentImgW, currentImgH, 0, 0, this.resultWidth, this.resultHeight)
-        // canvas转为blob并上传
+        // canvas转为blob
         canvas.toBlob((blob) => {
-          // 图片ajax上传
           if (blob) {
             if (callBack) {
               callBack(blob)
