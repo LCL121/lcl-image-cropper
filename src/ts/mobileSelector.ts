@@ -247,7 +247,7 @@ class MobileSelector {
 
       window.addEventListener('touchend', lineAndPointTopEnd)
       window.addEventListener('touchmove', lineAndPointTopMove)
-    })
+    }, { passive: true })
   }
 
   // 向下的线和点
@@ -311,7 +311,7 @@ class MobileSelector {
 
       window.addEventListener('touchend', lineAndPointBottomEnd)
       window.addEventListener('touchmove', lineAndPointBottomMove)
-    })
+    }, { passive: true })
   }
 
   // 向左的线和点
@@ -379,7 +379,7 @@ class MobileSelector {
 
       window.addEventListener('touchend', lineAndPointLeftEnd)
       window.addEventListener('touchmove', lineAndPointLeftMove)
-    })
+    }, { passive: true })
   }
 
   // 向右的线和点
@@ -443,7 +443,7 @@ class MobileSelector {
 
       window.addEventListener('touchend', lineAndPointRightEnd)
       window.addEventListener('touchmove', lineAndPointRightMove)
-    })
+    }, { passive: true })
   }
 
   // 向左上的点
@@ -541,7 +541,7 @@ class MobileSelector {
 
       window.addEventListener('touchend', pointLeftAndTopEnd)
       window.addEventListener('touchmove', pointLeftAndTopMove)
-    })
+    }, { passive: true })
   }
 
   // 向右上的点
@@ -629,7 +629,7 @@ class MobileSelector {
 
       window.addEventListener('touchend', pointRightAndTopEnd)
       window.addEventListener('touchmove', pointRightAndTopMove)
-    })
+    }, { passive: true })
   }
 
   // 向左下的点
@@ -717,7 +717,7 @@ class MobileSelector {
 
       window.addEventListener('touchend', pointLeftAndBottomEnd)
       window.addEventListener('touchmove', pointLeftAndBottomMove)
-    })
+    }, { passive: true })
   }
 
   // 向右下的点
@@ -815,7 +815,7 @@ class MobileSelector {
 
       window.addEventListener('touchend', pointRightAndBottomEnd)
       window.addEventListener('touchmove', pointRightAndBottomMove)
-    })
+    }, { passive: true })
   }
 }
 

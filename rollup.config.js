@@ -95,6 +95,12 @@ const productionOutput = [
     format: 'esm',
     name: 'LCLImageCropper',
     sourcemap: true
+  },
+  {
+    file: `./dist/${pkg.name}.iife.min.js`,
+    format: 'iife',
+    name: 'LCLImageCropper',
+    sourcemap: true
   }
 ]
 

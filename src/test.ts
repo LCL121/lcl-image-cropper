@@ -70,12 +70,14 @@ class Test {
           document.body.append(button4)
 
           // 测试下载功能
-          // const button5 = document.createElement('button')
-          // button5.innerHTML = 'download'
-          // button5.onclick = () => {
-          //   a.download()
-          // }
-          // document.body.append(button5)
+          const button5 = document.createElement('button')
+          button5.innerHTML = 'download'
+          button5.onclick = () => {
+            a.getResult((blob: Blob) => {
+              console.log(blob)
+            }, true)
+          }
+          document.body.append(button5)
 
           // 测试销毁功能
           const button3 = document.createElement('button')
@@ -86,7 +88,7 @@ class Test {
             button2.remove()
             button3.remove()
             button4.remove()
-            // button5.remove()
+            button5.remove()
           }
           document.body.append(button3)
         }
