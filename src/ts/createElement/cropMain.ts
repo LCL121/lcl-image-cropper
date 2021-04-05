@@ -36,7 +36,12 @@ class CropMain {
       // height 固定初始化时 300px
       const aspectRatio = target.height / 300
       const width = target.width / aspectRatio
-      cropBox.style.left = `${Math.floor((500 - width) / 2)}px`
+      if (width > 500) {
+        this.cropMainMain.style.width = `${width}px`
+        cropBox.style.left = '0px'
+      } else {
+        cropBox.style.left = `${Math.floor((500 - width) / 2)}px`
+      }
       cropBox.style.width = `${startWidth || Math.floor(width / 2)}px`
       cropBox.style.height = `${startHeight || 150}px`
       cropBox.style.transform = 'translate3d(0px, 0px, 0px)'
