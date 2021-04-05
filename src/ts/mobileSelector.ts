@@ -197,7 +197,8 @@ class MobileSelector {
     cropBoxElement: HTMLElement,
     imgElement: HTMLImageElement,
     infoHeightElement: HTMLSpanElement,
-    MIN_W_H: number = 20
+    MIN_W_H: number = 20,
+    proportion?: number
   ) {
     let isMove = false
     let startY: number
@@ -228,7 +229,11 @@ class MobileSelector {
           imgElement.style.transform = `translate3d(${-translateX}px, ${-translateY}px, 0px)`
           cropBoxElement.style.transform = `translate3d(${translateX}px, ${translateY}px, 0px)`
           cropBoxElement.style.height = `${currentH}px`
-          infoHeightElement.innerHTML = `${Math.round(currentH)}`
+          if (proportion) {
+            infoHeightElement.innerHTML = `${Math.round(currentH / proportion)}`
+          } else {
+            infoHeightElement.innerHTML = `${Math.round(currentH)}`
+          }
         }
       }
     }
@@ -265,7 +270,8 @@ class MobileSelector {
     cropBoxElement: HTMLElement,
     imgElement: HTMLImageElement,
     infoHeightElement: HTMLSpanElement,
-    MIN_W_H: number = 20
+    MIN_W_H: number = 20,
+    proportion?: number
   ) {
     let isMove = false
     let startY: number
@@ -292,7 +298,11 @@ class MobileSelector {
         if (currentH > imgH - translateY) currentH = imgH - translateY
         if (imgH - translateY >= currentH && currentH >= MIN_W_H) {
           cropBoxElement.style.height = `${currentH}px`
-          infoHeightElement.innerHTML = `${Math.round(currentH)}`
+          if (proportion) {
+            infoHeightElement.innerHTML = `${Math.round(currentH / proportion)}`
+          } else {
+            infoHeightElement.innerHTML = `${Math.round(currentH)}`
+          }
         }
       }
     }
@@ -329,7 +339,8 @@ class MobileSelector {
     cropBoxElement: HTMLElement,
     imgElement: HTMLImageElement,
     infoWidthElement: HTMLSpanElement,
-    MIN_W_H: number = 20
+    MIN_W_H: number = 20,
+    proportion?: number
   ) {
     let isMove = false
     let startX: number
@@ -360,7 +371,11 @@ class MobileSelector {
           imgElement.style.transform = `translate3d(${-translateX}px, ${-translateY}px, 0px)`
           cropBoxElement.style.transform = `translate3d(${translateX}px, ${translateY}px, 0px)`
           cropBoxElement.style.width = `${currentW}px`
-          infoWidthElement.innerHTML = `${Math.round(currentW)}`
+          if (proportion) {
+            infoWidthElement.innerHTML = `${Math.round(currentW / proportion)}`
+          } else {
+            infoWidthElement.innerHTML = `${Math.round(currentW)}`
+          }
         }
       }
     }
@@ -397,7 +412,8 @@ class MobileSelector {
     cropBoxElement: HTMLElement,
     imgElement: HTMLImageElement,
     infoWidthElement: HTMLSpanElement,
-    MIN_W_H: number = 20
+    MIN_W_H: number = 20,
+    proportion?: number
   ) {
     let isMove = false
     let startX: number
@@ -424,7 +440,11 @@ class MobileSelector {
         if (currentW > imgW - translateX) currentW = imgW - translateX
         if (imgW - translateX >= currentW && currentW >= MIN_W_H) {
           cropBoxElement.style.width = `${currentW}px`
-          infoWidthElement.innerHTML = `${Math.round(currentW)}`
+          if (proportion) {
+            infoWidthElement.innerHTML = `${Math.round(currentW / proportion)}`
+          } else {
+            infoWidthElement.innerHTML = `${Math.round(currentW)}`
+          }
         }
       }
     }
@@ -465,7 +485,8 @@ class MobileSelector {
     infoWidthElement: HTMLSpanElement,
     infoHeightElement: HTMLSpanElement,
     defaultAspectRatio: number,
-    MIN_W_H: number = 20
+    MIN_W_H: number = 20,
+    proportion?: number
   ) {
     let isMove = false
     let startY: number
@@ -518,8 +539,13 @@ class MobileSelector {
           cropBoxElement.style.transform = `translate3d(${translateX}px, ${translateY}px, 0px)`
           cropBoxElement.style.height = `${currentH}px`
           cropBoxElement.style.width = `${currentW}px`
-          infoHeightElement.innerHTML = `${Math.round(currentH)}`
-          infoWidthElement.innerHTML = `${Math.round(currentW)}`
+          if (proportion) {
+            infoHeightElement.innerHTML = `${Math.round(currentH / proportion)}`
+            infoWidthElement.innerHTML = `${Math.round(currentW / proportion)}`
+          } else {
+            infoHeightElement.innerHTML = `${Math.round(currentH)}`
+            infoWidthElement.innerHTML = `${Math.round(currentW)}`
+          }
         }
       }
     }
@@ -563,7 +589,8 @@ class MobileSelector {
     infoWidthElement: HTMLSpanElement,
     infoHeightElement: HTMLSpanElement,
     defaultAspectRatio: number,
-    MIN_W_H: number = 20
+    MIN_W_H: number = 20,
+    proportion?: number
   ) {
     let isMove = false
     let startY: number
@@ -607,8 +634,13 @@ class MobileSelector {
           cropBoxElement.style.transform = `translate3d(${translateX}px, ${translateY}px, 0px)`
           cropBoxElement.style.height = `${currentH}px`
           cropBoxElement.style.width = `${currentW}px`
-          infoHeightElement.innerHTML = `${Math.round(currentH)}`
-          infoWidthElement.innerHTML = `${Math.round(currentW)}`
+          if (proportion) {
+            infoHeightElement.innerHTML = `${Math.round(currentH / proportion)}`
+            infoWidthElement.innerHTML = `${Math.round(currentW / proportion)}`
+          } else {
+            infoHeightElement.innerHTML = `${Math.round(currentH)}`
+            infoWidthElement.innerHTML = `${Math.round(currentW)}`
+          }
         }
       }
     }
@@ -651,7 +683,8 @@ class MobileSelector {
     infoWidthElement: HTMLSpanElement,
     infoHeightElement: HTMLSpanElement,
     defaultAspectRatio: number,
-    MIN_W_H: number = 20
+    MIN_W_H: number = 20,
+    proportion?: number
   ) {
     let isMove = false
     let startY: number
@@ -695,8 +728,13 @@ class MobileSelector {
           cropBoxElement.style.transform = `translate3d(${translateX}px, ${translateY}px, 0px)`
           cropBoxElement.style.height = `${currentH}px`
           cropBoxElement.style.width = `${currentW}px`
-          infoHeightElement.innerHTML = `${Math.round(currentH)}`
-          infoWidthElement.innerHTML = `${Math.round(currentW)}`
+          if (proportion) {
+            infoHeightElement.innerHTML = `${Math.round(currentH / proportion)}`
+            infoWidthElement.innerHTML = `${Math.round(currentW / proportion)}`
+          } else {
+            infoHeightElement.innerHTML = `${Math.round(currentH)}`
+            infoWidthElement.innerHTML = `${Math.round(currentW)}`
+          }
         }
       }
     }
@@ -739,7 +777,8 @@ class MobileSelector {
     infoWidthElement: HTMLSpanElement,
     infoHeightElement: HTMLSpanElement,
     defaultAspectRatio: number,
-    MIN_W_H: number = 20
+    MIN_W_H: number = 20,
+    proportion?: number
   ) {
     let isMove = false
     let startX: number
@@ -792,8 +831,13 @@ class MobileSelector {
           cropBoxElement.style.transform = `translate3d(${translateX}px, ${translateY}px, 0px)`
           cropBoxElement.style.height = `${currentH}px`
           cropBoxElement.style.width = `${currentW}px`
-          infoHeightElement.innerHTML = `${Math.round(currentH)}`
-          infoWidthElement.innerHTML = `${Math.round(currentW)}`
+          if (proportion) {
+            infoHeightElement.innerHTML = `${Math.round(currentH / proportion)}`
+            infoWidthElement.innerHTML = `${Math.round(currentW / proportion)}`
+          } else {
+            infoHeightElement.innerHTML = `${Math.round(currentH)}`
+            infoWidthElement.innerHTML = `${Math.round(currentW)}`
+          }
         }
       }
     }

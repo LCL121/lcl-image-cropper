@@ -39,9 +39,7 @@ class Test {
         if (this.file) {
           const a = LCLImageCropper(
             document.body,
-            this.base64,
-            214,
-            300
+            this.base64
           )
           // 测试清空功能
           const button1 = document.createElement('button')

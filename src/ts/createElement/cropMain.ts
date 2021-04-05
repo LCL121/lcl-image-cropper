@@ -24,7 +24,7 @@ class CropMain {
 
     // base64地址图片加载完毕后
     // 展示
-    this.cropBottomBox.img.onload = (e) => {
+    this.cropBottomBox.img.addEventListener('load', (e) => {
       const cropBox = this.cropBox.cropBoxMain
       const imgShow = this.cropBox.cropBoxImgObj.img
       const imgBottom = this.cropBottomBox.img
@@ -33,7 +33,6 @@ class CropMain {
       const target = e.target as HTMLImageElement
 
       const originImgHeight = target.height
-      callBack(target.width, target.height)
       // height 固定初始化时 300px
       const aspectRatio = target.height / 300
       const width = target.width / aspectRatio
@@ -49,11 +48,11 @@ class CropMain {
       imgShow.style.height = '300px'
       imgShow.style.transform = 'translate3d(0px, 0px, 0px)'
       imgBottom.style.height = '300px'
-      imageInfoHeight.innerHTML = `${startWidth || Math.floor(width / 2)}`
-      imageInfoWidth.innerHTML = `${startHeight || 150}`
-
       this.proportion = target.height / originImgHeight
-    }
+      callBack(target.width, target.height)
+      imageInfoHeight.innerHTML = `${Math.round((startHeight || 150) / this.proportion)}`
+      imageInfoWidth.innerHTML = `${Math.round((startWidth || Math.floor(width / 2)) / this.proportion)}`
+    })
   }
 
   getProportion () {

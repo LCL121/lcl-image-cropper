@@ -15,7 +15,8 @@ class commonSeletor {
     cropBoxElement: HTMLElement,
     infoHeightElement: HTMLSpanElement,
     infoWidthElement: HTMLSpanElement,
-    imgElement: HTMLImageElement
+    imgElement: HTMLImageElement,
+    proportion?: number
   ) {
     const width = Math.round(parseFloat(imgElement.style.width))
     const height = Math.round(parseFloat(imgElement.style.height))
@@ -23,8 +24,13 @@ class commonSeletor {
     cropBoxElement.style.width = `${width}px`
     cropBoxElement.style.transform = 'translate3d(0px, 0px, 0px)'
     imgElement.style.transform = 'translate3d(0px, 0px, 0px)'
-    infoHeightElement.innerHTML = `${height}`
-    infoWidthElement.innerHTML = `${width}`
+    if (proportion) {
+      infoHeightElement.innerHTML = `${Math.round(height / proportion)}`
+      infoWidthElement.innerHTML = `${Math.round(width / proportion)}`
+    } else {
+      infoHeightElement.innerHTML = `${height}`
+      infoWidthElement.innerHTML = `${width}`
+    }
   }
 }
 
